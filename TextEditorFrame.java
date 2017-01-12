@@ -1,4 +1,4 @@
-package finalGuiProject;
+// package finalGuiProject; uncomment this 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.BorderLayout;
@@ -42,17 +42,17 @@ public class TextEditorFrame extends JFrame
    private ButtonGroup fontButtonGroup; // manages font menu items
    private ButtonGroup colorButtonGroup; // manages color menu items
    private int style; // used to create style for font
-   private JTextArea textArea;
-   private JScrollPane scrollPane = new JScrollPane(textArea);
-   private JFileChooser fileChooser = new JFileChooser();
-   private BufferedWriter writer;
-   private BufferedReader reader;
-   private KeyStroke keyStrokeAbout = KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_MASK);
-   private KeyStroke keyStrokeToExit = KeyStroke.getKeyStroke(KeyEvent.VK_E,KeyEvent.CTRL_MASK);
-   private KeyStroke keyStrokeToSave = KeyStroke.getKeyStroke(KeyEvent.VK_S,KeyEvent.CTRL_MASK);
-   private KeyStroke keyStrokeToOpen = KeyStroke.getKeyStroke(KeyEvent.VK_O,KeyEvent.CTRL_MASK);
-   private KeyStroke keyStrokeNew = KeyStroke.getKeyStroke(KeyEvent.VK_N,KeyEvent.CTRL_MASK);
-   private KeyStroke keyStrokeToContact = KeyStroke.getKeyStroke(KeyEvent.VK_K,KeyEvent.CTRL_MASK);
+   private JTextArea textArea; // used for editing
+   private JScrollPane scrollPane = new JScrollPane(textArea); // used if there are too many rows
+   private JFileChooser fileChooser = new JFileChooser(); // used to open and save files
+   private BufferedWriter writer; // used to save the file into txt file
+   private BufferedReader reader; // used to open an exiting file
+   private KeyStroke keyStrokeAbout = KeyStroke.getKeyStroke(KeyEvent.VK_I,KeyEvent.CTRL_MASK); // CTRL+I
+   private KeyStroke keyStrokeToExit = KeyStroke.getKeyStroke(KeyEvent.VK_E,KeyEvent.CTRL_MASK); // CTRL+E
+   private KeyStroke keyStrokeToSave = KeyStroke.getKeyStroke(KeyEvent.VK_S,KeyEvent.CTRL_MASK); // CTRL+S
+   private KeyStroke keyStrokeToOpen = KeyStroke.getKeyStroke(KeyEvent.VK_O,KeyEvent.CTRL_MASK);// CTRL+O
+   private KeyStroke keyStrokeNew = KeyStroke.getKeyStroke(KeyEvent.VK_N,KeyEvent.CTRL_MASK); // CTRL+N
+   private KeyStroke keyStrokeToContact = KeyStroke.getKeyStroke(KeyEvent.VK_K,KeyEvent.CTRL_MASK); //CTRL+K
 
    // no-argument constructor set up GUI
    public TextEditorFrame()
@@ -60,9 +60,10 @@ public class TextEditorFrame extends JFrame
       super( "Osamah's Text Editor" );     
 
       JMenu fileMenu = new JMenu( "File" ); // create file menu
-      fileMenu.setMnemonic( 'F' ); // set mnemonic to F
+      fileMenu.setMnemonic(KeyEvent.VK_F); // set mnemonic to F
 
-      JMenuItem newItem = new JMenuItem("New");
+      // new menu
+	  JMenuItem newItem = new JMenuItem("New");
       newItem.setAccelerator(keyStrokeNew);
       fileMenu.add(newItem);
       newItem.addActionListener(new ActionListener() {
@@ -75,6 +76,7 @@ public class TextEditorFrame extends JFrame
           }
       });
       
+	  // open menu
       JMenuItem openItem = new JMenuItem("Open");
       openItem.setAccelerator(keyStrokeToOpen);
       fileMenu.add(openItem);
@@ -108,6 +110,7 @@ public class TextEditorFrame extends JFrame
           }
       });
       
+	  // save menu
       JMenuItem saveItem = new JMenuItem("Save");
       saveItem.setAccelerator(keyStrokeToSave);
       fileMenu.add(saveItem);
@@ -143,15 +146,15 @@ public class TextEditorFrame extends JFrame
       fileMenu.add( exitItem ); // add exit item to file menu
       exitItem.addActionListener(
 
-         new ActionListener() // anonymous inner class
+         new ActionListener() 
          {  
-            // terminate application when user clicks exitItem
+            
             public void actionPerformed( ActionEvent event )
             {
                System.exit( 0 ); // exit application
-            } // end method actionPerformed
-         } // end anonymous inner class
-      ); // end call to addActionListener
+            } 
+         } 
+      ); 
 
       JMenuBar bar = new JMenuBar(); // create menu bar
       setJMenuBar(bar); // add menu bar to application
@@ -232,7 +235,7 @@ public class TextEditorFrame extends JFrame
       infoMenu.add(aboutItem); // add about item to file menu
       aboutItem.addActionListener(new ActionListener() // anonymous inner class
          {  
-            // display message dialog when user selects About...
+           
             public void actionPerformed( ActionEvent event )
             {
                JOptionPane.showMessageDialog(TextEditorFrame.this,
@@ -246,10 +249,11 @@ public class TextEditorFrame extends JFrame
                           + "\n*Save style preferences"
                           + "\n*And a LOT more!",
                   "About", JOptionPane.PLAIN_MESSAGE );
-            } // end method actionPerformed
-         } // end anonymous inner class
-      ); // end call to addActionListener
+            } 
+         } 
+      ); 
       
+	  // contact menu
       JMenuItem contactUs = new JMenuItem("Contact");
       contactUs.setAccelerator(keyStrokeToContact);
       infoMenu.add(contactUs);
@@ -269,61 +273,52 @@ public class TextEditorFrame extends JFrame
       textArea.setLineWrap(true);
       textArea.setWrapStyleWord(true);
       
-      //add(textArea); NOT work if I put it seprate, must add it withen scrollpane
+      //add(textArea); does not work if I put it seprate, must be added withen scrollpane
       setPreferredSize(new Dimension(780, 380));
       add(new JScrollPane(textArea)); 
       
-      // set up label to display text
-      /*
-      displayJLabel = new JLabel( "Test", SwingConstants.CENTER );
-      displayJLabel.setForeground( colorValues[ 1 ] );
-      displayJLabel.setFont( new Font( "Serif", Font.PLAIN, 72 ) );
-      */
-
-      //getContentPane().setBackground( Color.CYAN ); // set background
-      //add( displayJLabel, BorderLayout.CENTER ); // add displayJLabel
    } // end TextEditorFrame constructor
 
    // inner class to handle action events from menu items
    private class ItemHandler implements ActionListener 
    {
-      // process color and font selections
+    
       public void actionPerformed( ActionEvent event )
       {
-         // process color selection
+        
          for ( int count = 0; count < colorItems.length; count++ )
          {
             if ( colorItems[ count ].isSelected() ) 
             {
                textArea.setForeground(colorValues[count]);
                break;
-            } // end if
-         } // end for
+            } 
+         } 
 
-         // process font selection
+        
          for ( int count = 0; count < fonts.length; count++ )
          {
             if ( event.getSource() == fonts[ count ] ) 
             {
                textArea.setFont( 
                   new Font( fonts[ count ].getText(), style, 18 ) );
-            } // end if
-         } // end for
+            } 
+         } 
 
          repaint(); // redraw application
-      } // end method actionPerformed
-   } // end class ItemHandler
+      } 
+   } 
 
    // inner class to handle item events from checkbox menu items
    private class StyleHandler implements ItemListener 
    {
-      // process font style selections
+
       public void itemStateChanged( ItemEvent e )
       {
          String name = textArea.getFont().getName(); // current Font
          Font font; // new font based on user selections
 
-         // determine which CheckBoxes are checked and create Font
+  
          if ( styleItems[ 0 ].isSelected() && 
               styleItems[ 1 ].isSelected() )
             font = new Font( name, Font.BOLD + Font.ITALIC, 18 );
@@ -336,6 +331,6 @@ public class TextEditorFrame extends JFrame
 
          textArea.setFont( font );
          repaint(); // redraw application
-      } // end method itemStateChanged
-   } // end class StyleHandler
+      } 
+   }
 } 
