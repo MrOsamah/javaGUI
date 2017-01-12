@@ -1,4 +1,4 @@
-package finalGuiProject;
+// package finalGuiProject; uncomment this
 import javax.swing.JFrame;
 
 public class TextEditorMain
