@@ -1,0 +1,5 @@
+This program is a simple text editor.
+It can change the font and the color and the style of the text.
+
+By Osamah Abdullaziz
+12/1/2016
