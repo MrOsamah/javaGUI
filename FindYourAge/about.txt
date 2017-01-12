@@ -1,5 +1,5 @@
 This program enable the user to enter his name, his gender, and his date of birth.
 Then it calculate his age with a nice messege.
 
-By Osamah Alkhamees
+By Osamah Abdullaziz
 9/17/2016
