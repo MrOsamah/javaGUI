@@ -1,5 +1,6 @@
 This program is a simple text editor.
 It can change the font and the color and the style of the text.
+Also the user can save the file as txt, or he can open an exicting txt tile.
 
 By Osamah Abdullaziz
 12/1/2016
